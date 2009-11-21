@@ -18,6 +18,11 @@
 			<artifactId>commontypes</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<version>1.1</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

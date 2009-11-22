@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="1" time="0.092" errors="0" skipped="0" tests="12" name="de.gzockoll.types.money.MoneyTest">
+<testsuite failures="0" time="0.085" errors="0" skipped="0" tests="12" name="de.gzockoll.types.money.MoneyTest">
   <properties>
     <property name="java.vendor" value="Apple Inc."/>
     <property name="localRepository" value="/Users/guido/.m2/repository"/>
@@ -50,7 +50,6 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="env.MANPATH" value="/opt/local/share/man:"/>
-    <property name="env.JAVA_MAIN_CLASS_15677" value="org.codehaus.classworlds.Launcher"/>
     <property name="user.home" value="/Users/guido"/>
     <property name="env.OLDPWD" value="/Users/guido/Documents/workspace/money"/>
     <property name="java.specification.vendor" value="Sun Microsystems Inc."/>
@@ -66,8 +65,9 @@
     <property name="java.vm.specification.version" value="1.0"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.os.patch.level" value="unknown"/>
+    <property name="env.JAVA_MAIN_CLASS_26656" value="org.codehaus.classworlds.Launcher"/>
     <property name="env.HOME" value="/Users/guido"/>
-    <property name="surefire.test.class.path" value="/Users/guido/Documents/workspace/money/target/test-classes:/Users/guido/Documents/workspace/money/target/classes:/Users/guido/.m2/repository/junit/junit/4.7/junit-4.7.jar:/Users/guido/.m2/repository/de/gzockoll/commontypes/0.0.1-SNAPSHOT/commontypes-0.0.1-SNAPSHOT.jar:/Users/guido/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar:"/>
+    <property name="surefire.test.class.path" value="/Users/guido/Documents/workspace/money/target/test-classes:/Users/guido/Documents/workspace/money/target/classes:/Users/guido/.m2/repository/junit/junit/4.7/junit-4.7.jar:/Users/guido/.m2/repository/de/gzockoll/commontypes/0.0.1-SNAPSHOT/commontypes-0.0.1-SNAPSHOT.jar:/Users/guido/.m2/repository/joda-time/joda-time/1.6/joda-time-1.6.jar:/Users/guido/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar:/Users/guido/.m2/repository/de/gzockoll/quantity/0.0.1-SNAPSHOT/quantity-0.0.1-SNAPSHOT.jar:"/>
     <property name="java.io.tmpdir" value="/var/folders/gB/gBOW0VFTHi0T3ItfoH1DzE+++TI/-Tmp-/"/>
     <property name="java.vendor.url.bug" value="http://bugreport.apple.com/"/>
     <property name="env.MAVEN_OPTS" value="-Xmx1024m"/>
@@ -86,55 +86,16 @@
     <property name="file.encoding" value="MacRoman"/>
     <property name="java.specification.version" value="1.6"/>
   </properties>
-  <testcase time="0.013" classname="de.gzockoll.types.money.MoneyTest" name="testContruction"/>
-  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testHashCode"/>
+  <testcase time="0.014" classname="de.gzockoll.types.money.MoneyTest" name="testContruction"/>
+  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testHashCode"/>
   <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testMoneyIntCurrency"/>
-  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testAdd"/>
+  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testAdd"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testAddIsImmutable"/>
   <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testSubtract"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testEquals"/>
-  <testcase time="0.004" classname="de.gzockoll.types.money.MoneyTest" name="testToString">
-    <failure message="
-Expected: is &quot;10,00 ‚Ç¨&quot;
-     got: &quot;10,00 €&quot;
-" type="java.lang.AssertionError">java.lang.AssertionError: 
-Expected: is &quot;10,00 ‚Ç¨&quot;
-     got: &quot;10,00 €&quot;
-
-	at org.junit.Assert.assertThat(Assert.java:778)
-	at org.junit.Assert.assertThat(Assert.java:736)
-	at de.gzockoll.types.money.MoneyTest.testToString(MoneyTest.java:88)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
-	at java.lang.reflect.Method.invoke(Method.java:597)
-	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:44)
-	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
-	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:41)
-	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
-	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:76)
-	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:50)
-	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:193)
-	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:52)
-	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:191)
-	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:42)
-	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:184)
-	at org.junit.runners.ParentRunner.run(ParentRunner.java:236)
-	at org.apache.maven.surefire.junit4.JUnit4TestSet.execute(JUnit4TestSet.java:62)
-	at org.apache.maven.surefire.suite.AbstractDirectoryTestSuite.executeTestSet(AbstractDirectoryTestSuite.java:140)
-	at org.apache.maven.surefire.suite.AbstractDirectoryTestSuite.execute(AbstractDirectoryTestSuite.java:127)
-	at org.apache.maven.surefire.Surefire.run(Surefire.java:177)
-	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
-	at java.lang.reflect.Method.invoke(Method.java:597)
-	at org.apache.maven.surefire.booter.SurefireBooter.runSuitesInProcess(SurefireBooter.java:338)
-	at org.apache.maven.surefire.booter.SurefireBooter.main(SurefireBooter.java:997)
-</failure>
-  </testcase>
+  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testToString"/>
   <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testSimpleAllication"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testMultiAllication"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testNegate"/>
-  <testcase time="0.027" classname="de.gzockoll.types.money.MoneyTest" name="testMultiply"/>
+  <testcase time="0.002" classname="de.gzockoll.types.money.MoneyTest" name="testMultiply"/>
 </testsuite>

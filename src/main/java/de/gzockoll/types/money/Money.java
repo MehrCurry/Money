@@ -28,7 +28,7 @@ public class Money extends Quantity {
 		return amount;
 	}
 
-	private Money(long amount) {
+	public Money(long amount) {
 		this(amount,getDefaultCurrency());
 	}
 
@@ -40,11 +40,11 @@ public class Money extends Quantity {
 		return Currency.getInstance(l);
 	}
 	
-	private Money(double amount, CurrencyUnit unit) {
+	public Money(double amount, CurrencyUnit unit) {
 		super(Math.round(amount * centFactor(unit.getCurrency())),unit);
 	}
 
-	private Money(long amount, Currency currency) {
+	public Money(long amount, Currency currency) {
 		super(amount * centFactor(currency), new CurrencyUnit(currency));
 	}
 

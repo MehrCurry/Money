@@ -29,6 +29,14 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	<ciManagement>
+		<system>hudson</system>
+		<url>http://build:8080/money</url>
+	</ciManagement>
+	<scm>
+		<connection>scm:git:git@250101.vserver.de:/var/spool/git/money</connection>
+		<developerConnection>scm:git:git@250101.vserver.de:/var/spool/git/money</developerConnection>
+	</scm>
 	<build>
 		<plugins>
 			<plugin>

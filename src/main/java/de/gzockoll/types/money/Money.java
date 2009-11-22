@@ -5,20 +5,23 @@ import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
 
-import org.hamcrest.Matcher;
+import de.gzockoll.quantity.Quantity;
+import de.gzockoll.quantity.Unit;
 
-public class Money {
-	private Currency currency;
-	private long amount;
+public class Money extends Quantity {
 
+	public CurrencyUnit getUnit() {
+		return (CurrencyUnit) unit;
+	}
+	
 	@Override
 	public String toString() {
 		NumberFormat nf=NumberFormat.getCurrencyInstance();
-		return nf.format(1.0 * (amount / centFactor()));
+		return nf.format(1.0 * (amount / centFactor(((CurrencyUnit) unit).getCurrency())));
 	}
 
 	public Currency getCurrency() {
-		return currency;
+		return ((CurrencyUnit) unit).getCurrency();
 	}
 
 	public long getAmount() {
@@ -37,25 +40,22 @@ public class Money {
 		return Currency.getInstance(l);
 	}
 	
-	private Money(double amount, Currency currency) {
-		this.currency = currency;
-		this.amount = Math.round(amount * centFactor());
+	private Money(double amount, CurrencyUnit unit) {
+		super(Math.round(amount * centFactor(unit.getCurrency())),unit);
 	}
 
 	private Money(long amount, Currency currency) {
-		this.currency = currency;
-		this.amount = amount * centFactor();
+		super(amount * centFactor(currency), new CurrencyUnit(currency));
 	}
 
-	public Money(BigDecimal amount, Currency currency, int roundingMode) {
-		this.currency=currency;
-		amount.setScale(currency.getDefaultFractionDigits(),roundingMode);
-		this.amount=(long) (amount.doubleValue() * centFactor());
+	public Money(BigDecimal amount, CurrencyUnit unit, int roundingMode) {
+		super((long) (amount.doubleValue() * centFactor(unit.getCurrency())), unit);;
+		// amount=amount.setScale(unit.getCurrency().getDefaultFractionDigits(),roundingMode);
 	}
 
 	private static final int[] cents = new int[] { 1, 10, 100, 1000 };
 
-	private int centFactor() {
+	private static int centFactor(Currency currency) {
 		return cents[currency.getDefaultFractionDigits()];
 	}
 
@@ -68,31 +68,27 @@ public class Money {
 	}
 
 	public boolean equals(Money other) {
-		return currency.equals(other.currency) && (amount == other.amount);
+		return super.equals(other);
 	}
 
 	public Money add(Money other) {
 		assertSameCurrencyAs(other);
-		return newMoney((amount + other.amount) / centFactor());
+		return newMoney((amount + other.amount) / centFactor(getCurrency()));
 	}
 
 	private void assertSameCurrencyAs(Money arg) {
-		if (!currency.equals(arg.currency))
+		if (!unit.equals(arg.unit))
 			throw new IllegalArgumentException("money math mismatch");
 	}
 
 	private Money newMoney(long amount) {
-		Money money = new Money(amount, this.currency);
+		Money money = new Money(amount, getUnit());
 		return money;
 	}
 
 	public Money substract(Money other) {
 		assertSameCurrencyAs(other);
-		return newMoney((amount - other.amount) / centFactor());
-	}
-
-	public int compareTo(Object other) {
-		return compareTo((Money) other);
+		return newMoney((amount - other.amount) / centFactor(getCurrency()));
 	}
 
 	public int compareTo(Money other) {
@@ -118,9 +114,9 @@ public class Money {
 	}
 
 	public Money multiply(BigDecimal factor, int roundingMode) {
-		BigDecimal result = new BigDecimal(amount/centFactor()).multiply(factor);
+		BigDecimal result = new BigDecimal(amount/centFactor(getCurrency())).multiply(factor);
 		result.setScale(2,roundingMode);
-		return new Money(result, currency,
+		return new Money(result, getUnit(),
 						roundingMode);
 	}
 
@@ -134,6 +130,10 @@ public class Money {
 		for (int i = remainder; i < n; i++)
 			results[i] = lowResult;
 		return results;
+	}
+
+	private long centFactor() {
+		return centFactor(getCurrency());
 	}
 
 	public Money[] allocate(long[] ratios) {
@@ -157,11 +157,11 @@ public class Money {
 	}
 
 	public static Money newMoney(double d, Currency currency) {
-		return new Money(d,currency);
+		return new Money(d,new CurrencyUnit(currency));
 	}
 
 	public static Money euros(double d) {
-		return new Money(d, Currency.getInstance("EUR"));
+		return new Money(d, CurrencyUnit.EURO);
 	}
 
 	public static Money zero() {
@@ -173,7 +173,11 @@ public class Money {
 	}
 
 	public Money negate() {
-		return newMoney(-amount/centFactor(),currency);
+		return newMoney(-amount/centFactor(),getUnit());
+	}
+
+	private Money newMoney(long l, CurrencyUnit unit) {
+		return new Money(l,unit);
 	}
 
 	public static Money dollars(int amount) {

@@ -3,10 +3,13 @@ package de.gzockoll.types.money;
 import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.*;
 
+import java.math.BigDecimal;
 import java.util.Currency;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import de.gzockoll.quantity.Quantity;
 
 public class MoneyTest {
 
@@ -34,7 +37,7 @@ public class MoneyTest {
 		Money m1 = Money.euros(10);
 		Money m2 = Money.euros(11);
 		assertThat(m1.hashCode() == m2.hashCode(), is(false));
-		m1 = m1.add(Money.euros(1));
+		m1 = (Money) m1.add(Money.euros(1));
 		assertThat(m1, is(m2));
 		assertThat(m1.hashCode() == m2.hashCode(), is(true));
 	}
@@ -50,14 +53,15 @@ public class MoneyTest {
 	public void testAdd() {
 		Money m1 = Money.euros(10);
 		Money m2 = Money.euros(11);
-		assertThat(m1.add(m2), is(Money.euros(21)));
+		Money m3 = m1.add(m2);
+		assertThat((Money)m1.add(m2), is(Money.euros(21)));
 	}
 
 	@Test
 	public void testAddIsImmutable() {
 		Money m1 = Money.euros(10);
 		Money m2 = Money.euros(11);
-		Money m3 = m1.add(m2);
+		Money m3 = (Money) m1.add(m2);
 		assertThat(m3, is(Money.euros(21)));
 		assertThat(m1, is(Money.euros(10)));
 	}
@@ -89,7 +93,7 @@ public class MoneyTest {
 	}
 
 	@Test
-	public void testSimpleAllication() {
+	public void testSimpleAllocation() {
 		Money m = Money.euros(60);
 
 		Money[] alloc = m.allocate(6);
@@ -100,7 +104,7 @@ public class MoneyTest {
 	}
 
 	@Test
-	public void testMultiAllication() {
+	public void testMultiAllocation() {
 		Money m = Money.euros(60);
 
 		Money[] alloc = m.allocate(new long[] { 3, 2, 1 });
@@ -123,6 +127,19 @@ public class MoneyTest {
 		assertThat(m.multiply(0.19), is(Money.euros(19)));
 		m = Money.euros(95);
 		assertThat(m.multiply(0.19), is(Money.euros(18.05)));
-
+	}
+	
+	@Test
+	public void testConstuctors() {
+		Money m1=new Money(1900 ,CurrencyUnit.EURO);
+		Money m2=new Money(19.00,CurrencyUnit.EURO);
+		assertThat(m1,is(m2));
+	}
+	
+	@Test
+	public void testMoneyFromQuantity() {
+		Quantity q=new Quantity(1900, CurrencyUnit.EURO);
+		Money m=new Money(q);
+		assertThat(m,is(new Money(1900,CurrencyUnit.EURO)));
 	}
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.085" errors="0" skipped="0" tests="12" name="de.gzockoll.types.money.MoneyTest">
+<testsuite failures="0" time="0.109" errors="0" skipped="0" tests="14" name="de.gzockoll.types.money.MoneyTest">
   <properties>
     <property name="java.vendor" value="Apple Inc."/>
     <property name="localRepository" value="/Users/guido/.m2/repository"/>
@@ -61,11 +61,11 @@
     <property name="maven.home" value="/usr/share/maven"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.class.path" value="/usr/share/maven/boot/classworlds-1.1.jar"/>
+    <property name="env.JAVA_MAIN_CLASS_27461" value="org.codehaus.classworlds.Launcher"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="java.vm.specification.version" value="1.0"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.os.patch.level" value="unknown"/>
-    <property name="env.JAVA_MAIN_CLASS_26656" value="org.codehaus.classworlds.Launcher"/>
     <property name="env.HOME" value="/Users/guido"/>
     <property name="surefire.test.class.path" value="/Users/guido/Documents/workspace/money/target/test-classes:/Users/guido/Documents/workspace/money/target/classes:/Users/guido/.m2/repository/junit/junit/4.7/junit-4.7.jar:/Users/guido/.m2/repository/de/gzockoll/commontypes/0.0.1-SNAPSHOT/commontypes-0.0.1-SNAPSHOT.jar:/Users/guido/.m2/repository/joda-time/joda-time/1.6/joda-time-1.6.jar:/Users/guido/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar:/Users/guido/.m2/repository/de/gzockoll/quantity/0.0.1-SNAPSHOT/quantity-0.0.1-SNAPSHOT.jar:"/>
     <property name="java.io.tmpdir" value="/var/folders/gB/gBOW0VFTHi0T3ItfoH1DzE+++TI/-Tmp-/"/>
@@ -86,16 +86,18 @@
     <property name="file.encoding" value="MacRoman"/>
     <property name="java.specification.version" value="1.6"/>
   </properties>
-  <testcase time="0.014" classname="de.gzockoll.types.money.MoneyTest" name="testContruction"/>
-  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testHashCode"/>
-  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testMoneyIntCurrency"/>
+  <testcase time="0.02" classname="de.gzockoll.types.money.MoneyTest" name="testContruction"/>
+  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testHashCode"/>
+  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testMoneyIntCurrency"/>
   <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testAdd"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testAddIsImmutable"/>
   <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testSubtract"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testEquals"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testToString"/>
-  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testSimpleAllication"/>
-  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testMultiAllication"/>
-  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testNegate"/>
+  <testcase time="0.004" classname="de.gzockoll.types.money.MoneyTest" name="testSimpleAllocation"/>
+  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testMultiAllocation"/>
+  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testNegate"/>
   <testcase time="0.002" classname="de.gzockoll.types.money.MoneyTest" name="testMultiply"/>
+  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testConstuctors"/>
+  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testMoneyFromQuantity"/>
 </testsuite>

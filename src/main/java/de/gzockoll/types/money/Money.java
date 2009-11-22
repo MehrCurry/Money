@@ -45,12 +45,20 @@ public class Money extends Quantity {
 	}
 
 	public Money(long amount, Currency currency) {
-		super(amount * centFactor(currency), new CurrencyUnit(currency));
+		super(amount, new CurrencyUnit(currency));
+	}
+
+	public Money(long amount, CurrencyUnit unit) {
+		super(amount, unit);
 	}
 
 	public Money(BigDecimal amount, CurrencyUnit unit, int roundingMode) {
 		super((long) (amount.doubleValue() * centFactor(unit.getCurrency())), unit);;
 		// amount=amount.setScale(unit.getCurrency().getDefaultFractionDigits(),roundingMode);
+	}
+
+	public Money(Quantity q) {
+		this(q.getAmount(),(CurrencyUnit) q.getUnit());
 	}
 
 	private static final int[] cents = new int[] { 1, 10, 100, 1000 };
@@ -72,8 +80,11 @@ public class Money extends Quantity {
 	}
 
 	public Money add(Money other) {
-		assertSameCurrencyAs(other);
-		return newMoney((amount + other.amount) / centFactor(getCurrency()));
+		return new Money(super.add(other));
+	}
+
+	private Quantity newMoneyInternal(long l, CurrencyUnit unit) {
+		return new Money(l/centFactor(unit.getCurrency()),unit);
 	}
 
 	private void assertSameCurrencyAs(Money arg) {
@@ -87,8 +98,7 @@ public class Money extends Quantity {
 	}
 
 	public Money substract(Money other) {
-		assertSameCurrencyAs(other);
-		return newMoney((amount - other.amount) / centFactor(getCurrency()));
+		return new Money(super.sub(other));
 	}
 
 	public int compareTo(Money other) {
@@ -121,7 +131,7 @@ public class Money extends Quantity {
 	}
 
 	public Money[] allocate(int n) {
-		Money lowResult = newMoney(amount / n / centFactor());
+		Money lowResult = newMoney(amount / n);
 		Money highResult = newMoney(lowResult.amount + 1);
 		Money[] results = new Money[n];
 		int remainder = (int) amount % n;
@@ -143,7 +153,7 @@ public class Money extends Quantity {
 		long remainder = amount;
 		Money[] results = new Money[ratios.length];
 		for (int i = 0; i < results.length; i++) {
-			results[i] = newMoney(amount * ratios[i] / total / centFactor());
+			results[i] = newMoney(amount * ratios[i] / total);
 			remainder -= results[i].amount;
 		}
 		for (int i = 0; i < remainder; i++) {
@@ -173,7 +183,7 @@ public class Money extends Quantity {
 	}
 
 	public Money negate() {
-		return newMoney(-amount/centFactor(),getUnit());
+		return new Money(super.negate());
 	}
 
 	private Money newMoney(long l, CurrencyUnit unit) {

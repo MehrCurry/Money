@@ -6,6 +6,11 @@
 	<name>Money Pattern</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>Realisierung der Money Klasse nach Martin Fowler</description>
+  <parent>
+	  <groupId>de.gzockoll</groupId>
+	  <artifactId>pom-master</artifactId>
+	  <version>1</version>
+  </parent>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>

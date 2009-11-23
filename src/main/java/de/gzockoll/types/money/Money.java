@@ -5,11 +5,12 @@ import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.Locale;
 
+import de.gzockoll.quantity.AbstractQuantity;
 import de.gzockoll.quantity.Quantity;
 import de.gzockoll.quantity.Unit;
 
-public class Money extends Quantity {
-
+public class Money extends  AbstractQuantity {
+	
 	public CurrencyUnit getUnit() {
 		return (CurrencyUnit) unit;
 	}
@@ -77,10 +78,6 @@ public class Money extends Quantity {
 
 	public boolean equals(Money other) {
 		return super.equals(other);
-	}
-
-	public Money add(Money other) {
-		return new Money(super.add(other));
 	}
 
 	private Quantity newMoneyInternal(long l, CurrencyUnit unit) {
@@ -182,10 +179,6 @@ public class Money extends Quantity {
 		return equals(Money.zero());
 	}
 
-	public Money negate() {
-		return new Money(super.negate());
-	}
-
 	private Money newMoney(long l, CurrencyUnit unit) {
 		return new Money(l,unit);
 	}
@@ -193,4 +186,13 @@ public class Money extends Quantity {
 	public static Money dollars(int amount) {
 		return newMoney(amount,Currency.getInstance("USD"));
 	}
+
+	public Quantity newInstance(long amount, Unit unit) {
+		return new Money(amount,(CurrencyUnit) unit);
+	}
+
+	public Quantity newInstanceFromQuantity(Quantity a) {
+		return new Money(a.getAmount(),(CurrencyUnit) a.getUnit());
+	}
+
 }

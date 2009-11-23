@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="0.075" errors="0" skipped="0" tests="14" name="de.gzockoll.types.money.MoneyTest">
+<testsuite failures="0" time="0.052" errors="0" skipped="1" tests="14" name="de.gzockoll.types.money.MoneyTest">
   <properties>
     <property name="java.vendor" value="Apple Inc."/>
     <property name="localRepository" value="/Users/guido/.m2/repository"/>
@@ -26,7 +26,6 @@
     <property name="java.version" value="1.6.0_15"/>
     <property name="user.timezone" value="Europe/Berlin"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.endorsed.dirs" value="/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home/lib/endorsed"/>
     <property name="sun.cpu.isalist" value=""/>
     <property name="sun.jnu.encoding" value="MacRoman"/>
@@ -36,9 +35,9 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="50.0"/>
     <property name="user.country" value="DE"/>
+    <property name="env.JAVA_MAIN_CLASS_29912" value="org.codehaus.classworlds.Launcher"/>
     <property name="java.home" value="/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home"/>
     <property name="java.vm.info" value="mixed mode"/>
-    <property name="env.JAVA_MAIN_CLASS_28225" value="org.codehaus.classworlds.Launcher"/>
     <property name="env.LOGNAME" value="guido"/>
     <property name="os.version" value="10.6.2"/>
     <property name="env.TERM_PROGRAM_VERSION" value="272"/>
@@ -48,8 +47,6 @@
     <property name="env.TERM" value="xterm-color"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="awt.toolkit" value="apple.awt.CToolkit"/>
-    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
-    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="env.MANPATH" value="/opt/local/share/man:"/>
     <property name="user.home" value="/Users/guido"/>
     <property name="env.OLDPWD" value="/Users/guido/Documents/workspace/money"/>
@@ -67,14 +64,14 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.os.patch.level" value="unknown"/>
     <property name="env.HOME" value="/Users/guido"/>
-    <property name="surefire.test.class.path" value="/Users/guido/Documents/workspace/money/target/test-classes:/Users/guido/Documents/workspace/money/target/classes:/Users/guido/.m2/repository/junit/junit/4.7/junit-4.7.jar:/Users/guido/.m2/repository/de/gzockoll/commontypes/0.0.1-SNAPSHOT/commontypes-0.0.1-SNAPSHOT.jar:/Users/guido/.m2/repository/joda-time/joda-time/1.6/joda-time-1.6.jar:/Users/guido/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar:/Users/guido/.m2/repository/de/gzockoll/quantity/0.0.1-SNAPSHOT/quantity-0.0.1-SNAPSHOT.jar:"/>
+    <property name="surefire.test.class.path" value="/Users/guido/Documents/workspace/money/target/test-classes:/Users/guido/Documents/workspace/money/target/classes:/Users/guido/.m2/repository/junit/junit/4.7/junit-4.7.jar:/Users/guido/.m2/repository/de/gzockoll/commontypes/0.0.1-SNAPSHOT/commontypes-0.0.1-SNAPSHOT.jar:/Users/guido/.m2/repository/joda-time/joda-time/1.6/joda-time-1.6.jar:/Users/guido/.m2/repository/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar:/Users/guido/.m2/repository/de/gzockoll/quantity/0.0.1-SNAPSHOT/quantity-0.0.1-SNAPSHOT.jar:/Users/guido/.m2/repository/org/hamcrest/hamcrest-all/1.1/hamcrest-all-1.1.jar:"/>
     <property name="java.io.tmpdir" value="/var/folders/gB/gBOW0VFTHi0T3ItfoH1DzE+++TI/-Tmp-/"/>
     <property name="java.vendor.url.bug" value="http://bugreport.apple.com/"/>
     <property name="env.MAVEN_OPTS" value="-Xmx1024m"/>
     <property name="env.SSH_AUTH_SOCK" value="/tmp/launch-q4uONw/Listeners"/>
     <property name="env.COMMAND_MODE" value="unix2003"/>
-    <property name="java.awt.graphicsenv" value="apple.awt.CGraphicsEnvironment"/>
     <property name="os.arch" value="x86_64"/>
+    <property name="java.awt.graphicsenv" value="apple.awt.CGraphicsEnvironment"/>
     <property name="java.ext.dirs" value="/Library/Java/Extensions:/System/Library/Java/Extensions:/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home/lib/ext"/>
     <property name="env.DBUS_LAUNCHD_SESSION_BUS_SOCKET" value="/tmp/launch-PBeeYR/unix_domain_listener"/>
     <property name="user.dir" value="/Users/guido/Documents/workspace/money"/>
@@ -86,18 +83,20 @@
     <property name="file.encoding" value="MacRoman"/>
     <property name="java.specification.version" value="1.6"/>
   </properties>
-  <testcase time="0.011" classname="de.gzockoll.types.money.MoneyTest" name="testContruction"/>
-  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testHashCode"/>
+  <testcase time="0.009" classname="de.gzockoll.types.money.MoneyTest" name="testContruction"/>
+  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testHashCode"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testMoneyIntCurrency"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testAdd"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testAddIsImmutable"/>
-  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testSubtract"/>
+  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testSubtract"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testEquals"/>
-  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testToString"/>
-  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testSimpleAllocation"/>
-  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testMultiAllocation"/>
+  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testToString">
+    <skipped/>
+  </testcase>
+  <testcase time="0.003" classname="de.gzockoll.types.money.MoneyTest" name="testSimpleAllocation"/>
+  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testMultiAllocation"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testNegate"/>
-  <testcase time="0.002" classname="de.gzockoll.types.money.MoneyTest" name="testMultiply"/>
+  <testcase time="0.003" classname="de.gzockoll.types.money.MoneyTest" name="testMultiply"/>
   <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testConstuctors"/>
-  <testcase time="0" classname="de.gzockoll.types.money.MoneyTest" name="testMoneyFromQuantity"/>
+  <testcase time="0.001" classname="de.gzockoll.types.money.MoneyTest" name="testMoneyFromQuantity"/>
 </testsuite>

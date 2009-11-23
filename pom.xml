@@ -6,11 +6,6 @@
 	<name>Money Pattern</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<description>Realisierung der Money Klasse nach Martin Fowler</description>
-  <parent>
-	  <groupId>de.gzockoll</groupId>
-	  <artifactId>pom-master</artifactId>
-	  <version>1</version>
-  </parent>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -32,6 +27,11 @@
 			<groupId>de.gzockoll</groupId>
 			<artifactId>quantity</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>1.1</version>
 		</dependency>
 	</dependencies>
 	<ciManagement>

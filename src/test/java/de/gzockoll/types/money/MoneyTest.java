@@ -119,6 +119,17 @@ public class MoneyTest {
 			System.out.println(x);
 		}
 	}
+	
+	@Test
+	public void testRemainderAllocation() {
+		Money m = Money.euros(59);
+
+		Money[] alloc = m.allocate(3);
+		assertThat(alloc[0], is(Money.euros(19.00)));
+		assertThat(alloc[1], is(Money.euros(20.00)));
+		assertThat(alloc[2], is(Money.euros(20.00)));
+		
+	}
 
 	@Test
 	public void testMultiAllocation() {

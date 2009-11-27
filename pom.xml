@@ -40,7 +40,7 @@
 	</ciManagement>
 	<scm>
 		<connection>scm:git:git@250101.vserver.de:/var/spool/git/money</connection>
-		<developerConnection>scm:git:git@250101.vserver.de:/var/spool/git/money</developerConnection>
+		<developerConnection>scm:git:guido@250101.vserver.de:/var/spool/git/money</developerConnection>
 	</scm>
 	<build>
 		<plugins>

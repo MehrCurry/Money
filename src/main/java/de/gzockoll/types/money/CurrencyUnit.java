@@ -36,4 +36,8 @@ public class CurrencyUnit implements Unit {
 	public Quantity amount(long l) {
 		return new Money(l,this);
 	}
+
+	public Quantity getZeroQuantity() {
+		return amount(0);
+	}
 }	

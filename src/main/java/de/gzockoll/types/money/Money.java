@@ -1,196 +1,203 @@
 package de.gzockoll.types.money;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.Locale;
 
-import de.gzockoll.quantity.BigDecimalQuantity;
-import de.gzockoll.quantity.Quantity;
-import de.gzockoll.quantity.Unit;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 
-public class Money extends  BigDecimalQuantity {
-	
-	public CurrencyUnit getUnit() {
-		return (CurrencyUnit) unit;
-	}
-	
-//	@Override
-//	public String toString() {
-//		NumberFormat nf=NumberFormat.getCurrencyInstance();
-//		return nf.format(divide(centFactor(((CurrencyUnit) unit).getCurrency())));
-//	}
+public class Money {
 
-	public Currency getCurrency() {
-		return ((CurrencyUnit) unit).getCurrency();
-	}
+    private Currency unit;
+    private BigDecimal amount;
 
-	public Money(long amount) {
-		this(amount,getDefaultCurrency());
-	}
+    private Money(long amount, Currency currency) {
+        this.unit = currency;
+        this.amount = BigDecimal.valueOf(amount, currency.getDefaultFractionDigits());
+    }
 
-	private static Currency getDefaultCurrency() {
-		return getCurrencyByLocale(Locale.getDefault());
-	}
+    /**
+     * Create a new Money.
+     * 
+     * @param amount
+     * @param unit
+     */
+    private Money(BigDecimal amount, Currency unit) {
+        super();
+        this.amount = amount;
+        this.unit = unit;
+    }
 
-	private static Currency getCurrencyByLocale(Locale l) {
-		return Currency.getInstance(l);
-	}
-	
-	public Money(double amount, CurrencyUnit unit) {
-		super(new BigDecimal(amount),unit);
-	}
+    /**
+     * @return the amount
+     */
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
-	public Money(long amount, Currency currency) {
-		super(new BigDecimal(amount), new CurrencyUnit(currency));
-	}
+    public Currency getUnit() {
+        return (Currency) unit;
+    }
 
-	public Money(long amount, CurrencyUnit unit) {
-		super(new BigDecimal(amount), unit);
-	}
+    public Money(long amount) {
+        this(amount, getDefaultCurrency());
+    }
 
-//	public Money(BigDecimal amount, CurrencyUnit unit, int roundingMode) {
-//		super(amount, unit);;
-//	}
+    private static Currency getDefaultCurrency() {
+        return getCurrencyByLocale(Locale.getDefault());
+    }
 
+    private static Currency getCurrencyByLocale(Locale l) {
+        return Currency.getInstance(l);
+    }
 
-	public Money(Quantity q) {
-		super((BigDecimal)q.getAmount(),(CurrencyUnit) q.getUnit());
-	}
+    public static Money fromMajor(long amount, Currency unit) {
+        return new Money(amount * centFactor(unit), unit);
+    }
 
-	public Money(BigDecimal val, Unit unit) {
-		super(val,unit);
-	}
+    public static Money fromMinor(long amount, Currency unit) {
+        return new Money(amount, unit);
+    }
 
-	private static final int[] cents = new int[] { 1, 10, 100, 1000 };
+    private static final int[] cents = new int[] { 1, 10, 100, 1000 };
 
-	private static int centFactor(Currency currency) {
-		return cents[currency.getDefaultFractionDigits()];
-	}
+    private static int centFactor(Currency currency) {
+        return cents[currency.getDefaultFractionDigits()];
+    }
 
-	public boolean equals(Object other) {
-		return (other instanceof Money) && equals((Money) other);
-	}
+    public boolean equals(Object other) {
+        return EqualsBuilder.reflectionEquals(other, this);
+    }
 
-	public boolean equals(Money other) {
-		return super.equals(other);
-	}
+    private void assertSameCurrencyAs(Money arg) {
+        if (!unit.equals(arg.unit))
+            throw new IllegalArgumentException("money math mismatch");
+    }
 
-	private Quantity newMoneyInternal(long l, CurrencyUnit unit) {
-		return new Money(l/centFactor(unit.getCurrency()),unit);
-	}
+    private Money newMoney(long amount) {
+        Money money = new Money(amount, getUnit());
+        return money;
+    }
 
-	private void assertSameCurrencyAs(Money arg) {
-		if (!unit.equals(arg.unit))
-			throw new IllegalArgumentException("money math mismatch");
-	}
+    public Money add(Money other) {
+        assertSameCurrencyAs(other);
+        return new Money(amount.add(other.amount), unit);
+    }
 
-	private Money newMoney(long amount) {
-		Money money = new Money(amount, getUnit());
-		return money;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
 
-	public Money add(Money other) {
-		return new Money(super.add(other));
-	}
+    public Money substract(Money other) {
+        assertSameCurrencyAs(other);
+        return new Money(amount.subtract(other.amount), unit);
+    }
 
-	public Money substract(Money other) {
-		return new Money(super.sub(other));
-	}
+    public boolean greaterThan(Money other) {
+        return (compareTo(other) > 0);
+    }
 
-	public boolean greaterThan(Money other) {
-		return (compareTo(other) > 0);
-	}
+    /**
+     * @param other
+     * @return
+     */
+    private int compareTo(Money other) {
+        assertSameCurrencyAs(other);
+        return amount.compareTo(other.amount);
+    }
 
-	public Money multiply(double factor) {
-		return multiply(new BigDecimal(factor));
-	}
+    public Money multiply(double factor) {
+        MathContext ct = new MathContext(unit.getDefaultFractionDigits(), RoundingMode.HALF_UP);
+        return multiply(new BigDecimal(factor, ct), RoundingMode.HALF_UP);
+    }
 
-	public Money multiply(BigDecimal factor) {
-		return multiply(factor, BigDecimal.ROUND_HALF_EVEN);
-	}
+    public Money multiply(BigDecimal factor, RoundingMode roundingMode) {
+        MathContext ct = new MathContext(unit.getDefaultFractionDigits(), roundingMode);
+        BigDecimal value = factor.multiply(amount).setScale(ct.getPrecision(), ct.getRoundingMode());
+        return new Money(value, unit);
+    }
 
-	public Money multiply(BigDecimal factor, int roundingMode) {
-		BigDecimal result = amount.divide(factor.multiply(new BigDecimal(centFactor(getCurrency()))));
-		// result.setScale(2,roundingMode);
-		return new Money(result, getUnit());
-	}
+    public Money[] allocate(int n) {
+        Money lowResult = Money.fromMinor(asMinor() / n, unit);
+        Money highResult = new Money(asMinor() / n + 1, unit);
+        Money[] results = new Money[n];
+        int remainder = (int) asMinor() % n;
+        for (int i = 0; i < remainder; i++)
+            results[i] = highResult;
+        for (int i = remainder; i < n; i++)
+            results[i] = lowResult;
+        return results;
+    }
 
-	public Money[] allocate(int n) {
-		Money lowResult = newMoney(amount.longValue()/n);
-		Money highResult = newMoney(lowResult.amount.add(BigDecimal.ONE));
-		Money[] results = new Money[n];
-		int remainder = (int) amount.longValue() % n;
-		for (int i = 0; i < remainder; i++)
-			results[i] = highResult;
-		for (int i = remainder; i < n; i++)
-			results[i] = lowResult;
-		return results;
-	}
+    public long asMinor() {
+        return amount.multiply(new BigDecimal(centFactor())).longValue();
+    }
 
-	private Money newMoney(BigDecimal val) {
-		return new Money(val,unit);
-	}
+    private Money newMoney(BigDecimal val) {
+        return new Money(val, unit);
+    }
 
-	private long centFactor() {
-		return centFactor(getCurrency());
-	}
+    private long centFactor() {
+        return centFactor(unit);
+    }
 
-	public Money[] allocate(long[] ratios) {
-		long total = 0;
-		for (int i = 0; i < ratios.length; i++)
-			total += ratios[i];
-		long remainder = amount.longValue();
-		Money[] results = new Money[ratios.length];
-		for (int i = 0; i < results.length; i++) {
-			results[i] = newMoney(amount.longValue() * ratios[i] / total);
-			remainder -= results[i].amount.longValue();
-		}
-		for (int i = 0; i < remainder; i++) {
-			// results[i].amount++;
-		}
-		return results;
-	}
+    public Money[] allocate(long[] ratios) {
+        long total = 0;
+        for (int i = 0; i < ratios.length; i++)
+            total += ratios[i];
+        long remainder = asMinor();
+        Money[] results = new Money[ratios.length];
+        for (int i = 0; i < results.length; i++) {
+            long part = asMinor() / total * ratios[i];
+            results[i] = Money.fromMinor(part, unit);
+            remainder -= part;
+        }
+        for (int i = 0; i < remainder; i++) {
+            results[i] = results[i].add(fromMinor(1, unit));
+        }
+        return results;
+    }
 
-	public static Money euros(int i) {
-		Currency eur = Currency.getInstance("EUR");
-		return newMoney(i*centFactor(eur), eur);
-	}
+    public static Money cents(int i) {
+        return fromMinor(i, Currency.getInstance("EUR"));
+    }
 
-	public static Money cents(int i) {
-		return newMoney(i, Currency.getInstance("EUR"));
-	}
+    public static Money euros(long d) {
+        return fromMajor(d, Currency.getInstance("EUR"));
+    }
 
-	public static Money newMoney(double d, Currency currency) {
-		return new Money(d,new CurrencyUnit(currency));
-	}
+    public static Money zero() {
+        return new Money(0, getDefaultCurrency());
+    }
 
-	public static Money euros(double d) {
-		return new Money(d, CurrencyUnit.EURO);
-	}
+    public boolean isZero() {
+        return equals(Money.zero());
+    }
 
-	public static Money zero() {
-		return new Money(0, getDefaultCurrency());
-	}
+    /**
+     * @return
+     */
+    public Money negate() {
+        return new Money(amount.negate(), unit);
+    }
 
-	public boolean isZero() {
-		return equals(Money.zero());
-	}
-
-	private Money newMoney(long l, CurrencyUnit unit) {
-		return new Money(l,unit);
-	}
-
-	public static Money dollars(int amount) {
-		return newMoney(amount,Currency.getInstance("USD"));
-	}
-
-	public Quantity newInstance(Number amount, Unit unit) {
-		return new Money(new BigDecimal(amount.doubleValue()),(CurrencyUnit) unit);
-	}
-
-	public Quantity newInstanceFromQuantity(Quantity a) {
-		return new Money(new BigDecimal(a.getAmount().doubleValue()),(CurrencyUnit) a.getUnit());
-	}
-
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 }

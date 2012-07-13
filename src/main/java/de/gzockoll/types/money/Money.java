@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.Locale;
 
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
@@ -70,7 +71,11 @@ public class Money {
     }
 
     public boolean equals(Object other) {
-        return EqualsBuilder.reflectionEquals(other, this);
+        if (other instanceof Money) {
+            Validate.isTrue(amount.scale() == ((Money) other).amount.scale(), "Objects are not equaly scaled!");
+            return EqualsBuilder.reflectionEquals(other, this);
+        } else
+            return false;
     }
 
     private void assertSameCurrencyAs(Money arg) {
@@ -117,14 +122,31 @@ public class Money {
     }
 
     public Money multiply(double factor) {
-        MathContext ct = new MathContext(unit.getDefaultFractionDigits(), RoundingMode.HALF_UP);
-        return multiply(new BigDecimal(factor, ct), RoundingMode.HALF_UP);
+        MathContext ct = getMathContext();
+        return multiply(new BigDecimal(factor, ct), ct.getRoundingMode());
+    }
+
+    /**
+     * @return
+     */
+    private MathContext getMathContext() {
+        return new MathContext(unit.getDefaultFractionDigits(), RoundingMode.HALF_UP);
+    }
+
+    public Money multiply(BigDecimal factor) {
+        MathContext ct = getMathContext();
+        return multiply(factor, ct.getRoundingMode());
     }
 
     public Money multiply(BigDecimal factor, RoundingMode roundingMode) {
-        MathContext ct = new MathContext(unit.getDefaultFractionDigits(), roundingMode);
-        BigDecimal value = factor.multiply(amount).setScale(ct.getPrecision(), ct.getRoundingMode());
+        MathContext ct = getMathContext();
+        BigDecimal value = factor.multiply(amount);
         return new Money(value, unit);
+    }
+
+    public Money scaled() {
+        MathContext ct = getMathContext();
+        return new Money(amount.setScale(ct.getPrecision(), ct.getRoundingMode()), unit);
     }
 
     public Money[] allocate(int n) {

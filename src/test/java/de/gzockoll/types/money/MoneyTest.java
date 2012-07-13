@@ -129,26 +129,53 @@ public class MoneyTest {
     public void testMultiply() {
         Money m = Money.euros(100);
         Money expected = Money.euros(19);
-        Money result = m.multiply(0.19);
+        Money result = m.multiply(0.19).scaled();
         assertThat(result, is(expected));
         m = Money.euros(95);
-        result = m.multiply(0.19);
+        result = m.multiply(0.19).scaled();
         assertThat(result, is(Money.fromMinor(1805, EUR)));
     }
 
     @Test
-    public void testConstuctors() {
+    public void testConstuctorsEuro() {
         Money m1 = Money.fromMajor(19, EUR);
         Money m2 = Money.fromMinor(1900, EUR);
         assertThat(m1, is(m2));
     }
 
     @Test
-    public void testZinseszins() {
+    public void testConstuctorsYen() {
+        Currency yen = Currency.getInstance("JPY");
+        Money m1 = Money.fromMajor(19, yen);
+        Money m2 = Money.fromMinor(19, yen);
+        assertThat(m1, is(m2));
+    }
+
+    @Test
+    public void testZinseszinsEuro() {
         Money m = Money.euros(100);
-        for (int i = 0; i < 10; i++) {
+        BigDecimal factor = new BigDecimal("1.03");
+        for (int i = 0; i < 400; i++) {
             System.out.println(m);
-            m = m.multiply(1.03);
+            m = m.multiply(factor);
         }
+        assertThat(m.scaled(), is(Money.fromMinor(1364237182, EUR)));
+    }
+
+    @Test
+    public void testZinseszinsJen() {
+        Currency yen = Currency.getInstance("JPY");
+        Money m = Money.fromMajor(100, yen);
+        BigDecimal factor = new BigDecimal("1.03");
+        for (int i = 0; i < 400; i++) {
+            System.out.println(m);
+            m = m.multiply(factor);
+        }
+        assertThat(m.scaled(), is(Money.fromMinor(13642372, yen)));
+    }
+
+    @Test
+    public void testScaled() {
+
     }
 }

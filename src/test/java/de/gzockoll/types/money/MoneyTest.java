@@ -92,7 +92,7 @@ public class MoneyTest {
     public void testAdd() {
         Money m1 = Money.euros(10);
         Money m2 = Money.euros(11);
-        Money m3 = m1.add(m2);
+        Money m3 = m1.plus(m2);
         assertThat(m3, is(Money.euros(21)));
     }
 
@@ -103,7 +103,7 @@ public class MoneyTest {
     public void testAddIsImmutable() {
         Money m1 = Money.euros(10);
         Money m2 = Money.euros(11);
-        Money m3 = m1.add(m2);
+        Money m3 = m1.plus(m2);
         assertThat(m3, is(Money.euros(21)));
         assertThat(m1, is(Money.euros(10)));
     }
@@ -181,7 +181,7 @@ public class MoneyTest {
         Money m1 = Money.euros(10);
         Money m2 = Money.euros(11);
         assertThat(m1.hashCode() == m2.hashCode(), is(false));
-        m1 = m1.add(Money.euros(1));
+        m1 = m1.plus(Money.euros(1));
         assertThat(m1, is(m2));
         assertThat(m1.hashCode() == m2.hashCode(), is(true));
     }
@@ -223,7 +223,7 @@ public class MoneyTest {
         assertThat(alloc.length, is(3));
         assertThat(alloc[0], is(Money.fromMinor(3001, EUR)));
         assertThat(alloc[1], is(Money.fromMinor(2001, EUR)));
-        assertThat(alloc[2], is(Money.euros(10)));
+        assertThat(alloc[2], is(Money.fromMinor(1000, EUR)));
     }
 
     /**
@@ -294,7 +294,7 @@ public class MoneyTest {
     public void testSubtract() {
         Money m1 = Money.euros(10);
         Money m2 = Money.euros(11);
-        assertThat(m2.subtract(m1), is(Money.euros(1)));
+        assertThat(m2.minus(m1), is(Money.euros(1)));
     }
 
     /**
@@ -351,7 +351,7 @@ public class MoneyTest {
     /**
      * Test invalid currency
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void using_fromMajor_with_an_invalid_currency_should_throw_an_exception() {
         Currency c1 = Currency.getInstance("XYZ");
         Money.fromMajor(100, c1);
@@ -361,7 +361,7 @@ public class MoneyTest {
     /**
      * Test invalid currency
      */
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = AssertionError.class)
     public void using_fromMinor_with_an_invalid_currency_should_throw_an_exception() {
         Currency c1 = Currency.getInstance("XYZ");
         Money.fromMinor(100, c1);

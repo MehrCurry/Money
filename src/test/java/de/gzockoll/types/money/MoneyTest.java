@@ -317,7 +317,6 @@ public class MoneyTest {
 
         Money m4 = Money.fromMinor(37, Currency.getInstance("SEK"));
         assertThat(m4.getCurrency().getNumericCode(), is(752));
-
     }
 
     /**

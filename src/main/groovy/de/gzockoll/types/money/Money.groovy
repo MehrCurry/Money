@@ -112,33 +112,59 @@ class Money {
         def results = []
         ratios.each {
             def part = ((value / total) * it).setScale(0,RoundingMode.DOWN)
-            results << Money.fromMinor(part, currency)
+            results << fromMinor(part, currency)
             remainder -= part
         }
         (0..<remainder).each {results[it] += one }
         results
     }
 
+    /**
+     * multiply by the given factor
+     * @param factor
+     * @return
+     */
     def Money multiply(factor) {
         Money.fromMinor(value*factor,currency)
     }
 
+    /**
+     * rounds value to the correct scale after long calculations
+     * @return
+     */
     Money scaled() {
-        Money.fromMinor(value.setScale(0,RoundingMode.HALF_UP),currency)
+        fromMinor(value.setScale(0,RoundingMode.HALF_UP),currency)
     }
 
+    /**
+     *
+     * @return the internal value as correct scaled BigDecimal (2 digits for cents etc.)
+     */
     BigDecimal getAmount() {
         (value / getCentFactor(currency)).setScale(currency.getDefaultFractionDigits(),RoundingMode.HALF_UP)
     }
 
+    /**
+     * Convenience Constructor
+     *
+     * @param i amount in euros
+     * @return a now Money representing the amount
+     */
     static Money euros(int i) {
         fromMajor(i,EUR)
     }
 
+    /**
+     *
+     * @return minor value (i.e. cents) as long
+     */
     long asMinor() {
         return value.longValue();
     }
 
+    /**
+     * @return -this
+     */
     Money negate() {
         fromMinor(-value,currency)
     }

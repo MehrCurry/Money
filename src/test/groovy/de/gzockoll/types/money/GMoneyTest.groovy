@@ -98,7 +98,7 @@ class GMoneyTest extends GroovyTestCase {
         /**
          * Tests compound interest calculation with Euro.
          */
-        public void testCompountInterstEuro() {
+        void testCompountInterstEuro() {
             def m = Money.fromMinor(10000,EUR);
             def factor = 1.03G
             (0..<400).each { m = m.multiply(factor) }
@@ -108,11 +108,17 @@ class GMoneyTest extends GroovyTestCase {
         /**
          * Tests compound interest calculation with yen.
          */
-        public void testCompountInterstJen() {
+        void testCompountInterstJen() {
             def yen = com.ibm.icu.util.Currency.getInstance("JPY")
             def m = Money.fromMajor(100, yen)
             def factor = 1.03G
             (0..<400).each { m = m.multiply(factor) }
             assert m.scaled() == Money.fromMinor(13642372, yen)
+        }
+
+        void testSum() {
+            def entries=[]
+            (1..10).each { entries << Money.euros(it)}
+            assert entries.sum(Money.euros(0)) == Money.euros(55)
         }
 }

@@ -15,7 +15,7 @@ import java.math.RoundingMode
  */
 @EqualsAndHashCode
 class Money {
-    static def EUR=Currency.getInstance("EUR")
+    static EUR=Currency.getInstance("EUR")
     BigDecimal value
     Currency currency
 
@@ -149,7 +149,7 @@ class Money {
      *
      * @return the internal value as correct scaled BigDecimal (2 digits for cents etc.)
      */
-    BigDecimal getAmount() {
+    BigDecimal amount() {
         (value / getCentFactor(currency)).setScale(currency.getDefaultFractionDigits(),RoundingMode.HALF_UP)
     }
 
@@ -185,7 +185,7 @@ class Money {
      */
     String getAsFormattedString(Locale loc) {
         NumberFormat n = NumberFormat.getCurrencyInstance(loc);
-        return n.format(amount.doubleValue());
+        return n.format(value.doubleValue());
     }
 
     static Money zero(currency) {

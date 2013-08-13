@@ -187,4 +187,8 @@ class Money {
         NumberFormat n = NumberFormat.getCurrencyInstance(loc);
         return n.format(amount.doubleValue());
     }
+
+    static Money zero(currency) {
+        Money.fromMinor(0,currency)
+    }
 }

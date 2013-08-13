@@ -1,14 +1,11 @@
 package de.gzockoll.types.money
-
 import com.ibm.icu.text.NumberFormat
 import com.ibm.icu.util.Currency as Currency
-import groovy.transform.Immutable
-import groovy.transform.ToString
+import groovy.transform.EqualsAndHashCode
 import org.joda.time.DateTime
 import org.joda.time.Interval
 
 import java.math.RoundingMode
-
 /**
  * Created with IntelliJ IDEA.
  * User: Guido Zockoll
@@ -16,11 +13,10 @@ import java.math.RoundingMode
  * Time: 14:55
  * To change this template use File | Settings | File Templates.
  */
-@Immutable(knownImmutableClasses = [Currency.class])
-@ToString
+@EqualsAndHashCode
 class Money {
     static def EUR=Currency.getInstance("EUR")
-    BigDecimal value=0G
+    BigDecimal value
     Currency currency
 
     static digits = [1,10,100,1000]
@@ -90,7 +86,7 @@ class Money {
      */
     public Money[] allocate(int n) {
         Money lowResult = Money.fromMinor((int)(value.intValue() / n), currency);
-        Money highResult = new Money((int)(value.intValue() / n + 1), currency);
+        Money highResult =Money.fromMinor((int)(value.intValue() / n + 1), currency);
         def results = [];
         def remainder = value.intValue() % n;
         (0..<n).each { results << (it<remainder ? highResult : lowResult)}

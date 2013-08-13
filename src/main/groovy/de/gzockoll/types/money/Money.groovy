@@ -22,7 +22,20 @@ class Money {
     static digits = [1,10,100,1000]
 
     static Money fromMinor(value,currency) {
-        new Money(value: value,currency: currency)
+        new Money(value,currency)
+    }
+
+    Money(BigDecimal value, Currency currency) {
+        this.value = value
+        this.currency = currency
+    }
+
+    private void setValue(BigDecimal value) {
+        this.value = value
+    }
+
+    private void setCurrency(Currency currency) {
+        this.currency = currency
     }
 
     static getCentFactor(Currency currency) {
@@ -30,17 +43,17 @@ class Money {
         digits[currency.getDefaultFractionDigits()]
     }
     static Money fromMajor(value,Currency currency) {
-        new Money(value: value*getCentFactor(currency) ,currency: currency)
+        new Money(value*getCentFactor(currency) ,currency)
     }
 
     def Money plus(Money other) {
         assertSameCurrency(other)
-        new Money(value: value+other.value,currency: currency)
+        new Money(value+other.value,currency)
     }
 
     def Money minus(Money other) {
         assertSameCurrency(other)
-        new Money(value: value-other.value,currency: currency)
+        new Money(value-other.value,currency)
     }
 
     def assertSameCurrency(Money other) {

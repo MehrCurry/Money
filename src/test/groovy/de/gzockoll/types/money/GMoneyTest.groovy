@@ -56,8 +56,9 @@ class GMoneyTest extends GroovyTestCase {
         void xtestImmutable() {
             def m1=Money.fromMinor(10,EUR)
 
-            shouldFail { m1.value=100 }
-            shouldFail { m1.currency=USD }
+            m1.value=100
+            // shouldFail { m1.value=100 }
+            // shouldFail { m1.currency=USD }
         }
 
         void testSimpleAllocate() {

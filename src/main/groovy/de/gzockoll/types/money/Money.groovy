@@ -24,13 +24,17 @@ class Money {
     static digits = [1,10,100,1000]
 
     static Money fromMinor(value,currency) {
-        new Money(value,currency)
+        new Money(value/getCentFactor(currency),currency)
+    }
+
+    static Money fromMajor(value,Currency currency) {
+        new Money(value ,currency)
     }
 
     Money() {
     }
 
-    Money(BigDecimal value, Currency currency) {
+    private Money(BigDecimal value, Currency currency) {
         this.value = value
         this.currency = currency
     }
@@ -47,10 +51,6 @@ class Money {
         assert null != currency
         digits[currency.getDefaultFractionDigits()]
     }
-    static Money fromMajor(value,Currency currency) {
-        new Money(value*getCentFactor(currency) ,currency)
-    }
-
     def Money plus(Money other) {
         assertSameCurrency(other)
         new Money(value+other.value,currency)
@@ -94,6 +94,10 @@ class Money {
                 .toDate())
     }
 
+    BigDecimal asMinor() {
+        value*getCentFactor(currency)
+    }
+
     /**
      * Allocates the amount to n portion.
      *
@@ -103,10 +107,10 @@ class Money {
      * @return array with amount portions.
      */
     public Money[] allocate(int n) {
-        Money lowResult = Money.fromMinor((int)(value.intValue() / n), currency);
-        Money highResult =Money.fromMinor((int)(value.intValue() / n + 1), currency);
+        Money lowResult = Money.fromMinor((int)(asMinor() / n), currency);
+        Money highResult =Money.fromMinor((int)(asMinor() / n + 1), currency);
         def results = [];
-        def remainder = value.intValue() % n;
+        def remainder = asMinor().longValue() % n;
         (0..<n).each { results << (it<remainder ? highResult : lowResult)}
         results;
     }
@@ -122,10 +126,10 @@ class Money {
     public Money[] allocate(ratios) {
         def one = fromMinor(1, currency)
         def total = ratios.collect{it}.sum(0)
-        def remainder = value
+        def remainder = asMinor()
         def results = []
         ratios.each {
-            def part = ((value / total) * it).setScale(0,RoundingMode.DOWN)
+            def part = ((asMinor() / total) * it).setScale(0,RoundingMode.DOWN)
             results << fromMinor(part, currency)
             remainder -= part
         }
@@ -139,7 +143,7 @@ class Money {
      * @return
      */
     def Money multiply(factor) {
-        Money.fromMinor(value*factor,currency)
+        Money.fromMajor(value*factor,currency)
     }
 
     /**
@@ -147,7 +151,7 @@ class Money {
      * @return
      */
     Money scaled() {
-        fromMinor(value.setScale(0,RoundingMode.HALF_UP),currency)
+        fromMajor(value.setScale(currency.getDefaultFractionDigits(),RoundingMode.HALF_UP),currency)
     }
 
     /**
@@ -155,7 +159,7 @@ class Money {
      * @return the internal value as correct scaled BigDecimal (2 digits for cents etc.)
      */
     BigDecimal amount() {
-        (value / getCentFactor(currency)).setScale(currency.getDefaultFractionDigits(),RoundingMode.HALF_UP)
+        scaled().value
     }
 
     /**
@@ -166,14 +170,6 @@ class Money {
      */
     static Money euros(int i) {
         fromMajor(i,EUR)
-    }
-
-    /**
-     *
-     * @return minor value (i.e. cents) as long
-     */
-    long asMinor() {
-        return value.longValue();
     }
 
     /**

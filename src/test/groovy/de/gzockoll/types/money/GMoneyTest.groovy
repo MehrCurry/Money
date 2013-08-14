@@ -19,12 +19,12 @@ class GMoneyTest extends GroovyTestCase {
 
         void testFromMinor() {
             def m=Money.fromMinor(10,EUR)
-            assert m.value == 10
+            assert m.value == 0.10
         }
 
         void testFromMajor() {
             def m=Money.fromMajor(10,EUR)
-            assert m.value == 1000
+            assert m.value == 10
         }
 
         void testBigDecimal() {
@@ -63,12 +63,12 @@ class GMoneyTest extends GroovyTestCase {
 
         void testSimpleAllocate() {
             def m1=Money.fromMinor(10,EUR)
-            assert m1.allocate(3).collect { it.value} == [4,3,3]
+            assert m1.allocate(3).collect { it.value} == [0.04,0.03,0.03]
         }
 
         void testRatioAllocate() {
             def m1=Money.fromMinor(20,EUR)
-            assert m1.allocate([5,4,1]).collect { it.value} == [10,8,2]
+            assert m1.allocate([5,4,1]).collect { it.value} == [0.10,0.08,0.02]
         }
         /**
          * Tests multi allocation with remainder.
@@ -99,10 +99,12 @@ class GMoneyTest extends GroovyTestCase {
          * Tests compound interest calculation with Euro.
          */
         void testCompountInterstEuro() {
-            def m = Money.fromMinor(10000,EUR);
+            def m = Money.fromMajor(10000,EUR);
             def factor = 1.03G
-            (0..<400).each { m = m.multiply(factor) }
-            assert m.scaled() == Money.fromMinor(1364237182, EUR)
+            (0..<400).each {
+                m = m.multiply(factor)
+            }
+            assert m.scaled() == Money.fromMinor(136423718234, EUR)
         }
 
         /**

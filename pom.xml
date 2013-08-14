@@ -4,7 +4,7 @@
     <groupId>de.gzockoll</groupId>
     <artifactId>money</artifactId>
     <name>Money Pattern</name>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.1-SNAPSHOT</version>
     <description>Realisierung der Money Klasse nach Martin Fowler</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

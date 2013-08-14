@@ -2,6 +2,7 @@ package de.gzockoll.types.money
 import com.ibm.icu.text.NumberFormat
 import com.ibm.icu.util.Currency as Currency
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.ToString
 import org.joda.time.DateTime
 import org.joda.time.Interval
 
@@ -14,6 +15,7 @@ import java.math.RoundingMode
  * To change this template use File | Settings | File Templates.
  */
 @EqualsAndHashCode
+@ToString
 class Money {
     static EUR=Currency.getInstance("EUR")
     BigDecimal value

@@ -176,7 +176,7 @@ class Money {
      * @return -this
      */
     Money negate() {
-        fromMinor(-value,currency)
+        fromMajor(-value,currency)
     }
 
     /**

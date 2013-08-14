@@ -27,6 +27,9 @@ class Money {
         new Money(value,currency)
     }
 
+    Money() {
+    }
+
     Money(BigDecimal value, Currency currency) {
         this.value = value
         this.currency = currency

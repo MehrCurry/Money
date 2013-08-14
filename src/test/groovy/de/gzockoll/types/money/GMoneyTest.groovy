@@ -123,4 +123,10 @@ class GMoneyTest extends GroovyTestCase {
             (1..10).each { entries << Money.euros(it)}
             assert entries.sum(Money.euros(0)) == Money.euros(55)
         }
+
+        void testEuros() {
+            def m = Money.euros(10)
+            assert m.value == 10
+            assert m.scaled().value == 10.00G
+        }
 }

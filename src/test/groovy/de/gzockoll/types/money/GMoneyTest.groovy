@@ -47,11 +47,11 @@ class GMoneyTest extends GroovyTestCase {
             assert m3 - m2 == m1
         }
 
-        void testWrongCurrency() {
+        void testDifferentCurrency() {
             def m1=Money.fromMinor(10,EUR)
             def m2=Money.fromMinor(10,USD)
 
-            shouldFail { m1 + m2 }
+            assert (m1 + m2) instanceof MoneyBag
         }
 
         void xtestImmutable() {

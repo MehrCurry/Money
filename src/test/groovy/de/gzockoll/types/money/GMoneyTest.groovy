@@ -1,6 +1,7 @@
 package de.gzockoll.types.money
 
 import com.ibm.icu.util.ULocale
+import org.joda.time.DateTime
 
 /**
  * Created with IntelliJ IDEA.
@@ -78,21 +79,20 @@ class GMoneyTest extends GroovyTestCase {
 
             def alloc = m.allocate([3, 2, 1]);
             assert alloc.size() == 3
-            assert alloc[0] == Money.fromMinor(3001, EUR)
-            assert alloc[1] == Money.fromMinor(2001, EUR)
-            assert alloc[2] == Money.fromMinor(1000, EUR)
+            assert alloc.collect { it.value } == [30.01,20.01,10.00]
+            assert alloc.collect { it.currency.currencyCode}.unique() == ["EUR"]
         }
         /**
-         * French Polynesia does not have subunit for their currency
+         * French Polynesia does not have subunit for their currency (XPF)
          */
 
         void testCurrencyWithUnusualFraction_FrenchPolynesia() {
             com.ibm.icu.util.Currency cfpFranc = com.ibm.icu.util.Currency.getInstance(new ULocale.Builder()
                     .setRegion("PF").setLanguage("fr").build());
             assert cfpFranc.getDefaultFractionDigits() == 0
-            def one = Money.fromMinor(1000, cfpFranc);
+            def one = Money.fromMinor(1000, "XPF");
             assert one.value == 1000G
-            assert Money.fromMajor(33, cfpFranc) == Money.fromMinor(33, cfpFranc)
+            assert Money.fromMajor(33, "XPF") == Money.fromMinor(33, "XPF")
         }
 
         /**
@@ -111,22 +111,30 @@ class GMoneyTest extends GroovyTestCase {
          * Tests compound interest calculation with yen.
          */
         void testCompountInterstJen() {
-            def yen = com.ibm.icu.util.Currency.getInstance("JPY")
-            def m = Money.fromMajor(100, yen)
+            def m = Money.fromMajor(100, "JPY")
             def factor = 1.03G
             (0..<400).each { m = m.multiply(factor) }
-            assert m.scaled() == Money.fromMinor(13642372, yen)
+            assert m.scaled() == Money.fromMinor(13642372, "JPY")
         }
 
         void testSum() {
             def entries=[]
             (1..10).each { entries << Money.euros(it)}
-            assert entries.sum(Money.euros(0)) == Money.euros(55)
+            assert entries.sum() == Money.euros(55)
         }
 
         void testEuros() {
             def m = Money.euros(10)
             assert m.value == 10
             assert m.scaled().value == 10.00G
+        }
+
+        void testIsCurrencyValid() {
+            def m = Money.fromMinor(10,"FRF")
+            assert Money.isCurrencyValid(m.currency) == false
+            assert Money.isCurrencyValid(m.currency,DateTime.parse("1991-06-25")) == true
+
+            shouldFail { Money.assertCurrencyIsValid(m.currency)}
+
         }
 }

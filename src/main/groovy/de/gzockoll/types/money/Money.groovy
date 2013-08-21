@@ -16,15 +16,23 @@ import java.math.RoundingMode
  */
 @EqualsAndHashCode
 @ToString
-class Money {
+class Money extends AbstractMoney {
     static EUR=Currency.getInstance("EUR")
     BigDecimal value
     Currency currency
 
     static digits = [1,10,100,1000]
 
-    static Money fromMinor(value,currency) {
+    static Money fromMinor(value,String isoCode) {
+        fromMinor(value,Currency.getInstance(isoCode))
+    }
+
+    static Money fromMinor(value,Currency currency) {
         new Money(value/getCentFactor(currency),currency)
+    }
+
+    static Money fromMajor(value,String isoCode) {
+        fromMajor(value,Currency.getInstance(isoCode))
     }
 
     static Money fromMajor(value,Currency currency) {
@@ -51,14 +59,35 @@ class Money {
         assert null != currency
         digits[currency.getDefaultFractionDigits()]
     }
-    def Money plus(Money other) {
-        assertSameCurrency(other)
-        new Money(value+other.value,currency)
+    def IMoney plus(IMoney other) {
+        other.addMoney(this)
     }
 
-    def Money minus(Money other) {
-        assertSameCurrency(other)
-        new Money(value-other.value,currency)
+    @Override
+    IMoney addMoney(Money m) {
+        if (currency == m.currency)
+            Money.fromMajor(value+m.value,currency)
+        else
+            MoneyBag.create(this,m)
+    }
+
+    @Override
+    IMoney addMoneyBag(MoneyBag s) {
+        s.addMoney(this)
+        s.simplify()
+    }
+
+    @Override
+    boolean isZero() {
+        return value==0G
+    }
+
+    def IMoney minus(IMoney other) {
+        if (other instanceof MoneyBag)
+            other.add(negate())
+        else {
+            Money.fromMajor(value-other.value,currency)
+        }
     }
 
     def assertSameCurrency(Money other) {
@@ -80,8 +109,17 @@ class Money {
      * @return true if currency is valid
      */
     static isCurrencyValid(Currency currency) {
-        DateTime now = DateTime.now();
-        return isCurrencyValid(currency, new Interval(now, now))
+        isCurrencyValid(currency, DateTime.now())
+    }
+
+    /**
+     * @param currency
+     * @param aDate
+     * @return
+     */
+    static isCurrencyValid(Currency currency, DateTime aDate) {
+        isCurrencyValid(currency, new Interval(aDate, aDate))
+
     }
 
     /**
@@ -142,7 +180,7 @@ class Money {
      * @param factor
      * @return
      */
-    def Money multiply(factor) {
+    IMoney multiply(BigDecimal factor) {
         Money.fromMajor(value*factor,currency)
     }
 
@@ -179,7 +217,11 @@ class Money {
         fromMajor(-value,currency)
     }
 
-    /**
+    @Override
+    void appendTo(MoneyBag m) {
+        m.addMoney(this)
+    }
+/**
      * @param the
      *            Locale which is use for formatting
      * @return a string representing the amount and currency
@@ -192,4 +234,6 @@ class Money {
     static Money zero(currency) {
         Money.fromMinor(0,currency)
     }
+
+
 }

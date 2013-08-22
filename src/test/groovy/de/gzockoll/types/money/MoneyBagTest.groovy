@@ -68,4 +68,9 @@ class MoneyBagTest extends GroovyTestCase {
         def result = bag - bag
         assert result.entries().isEmpty()
     }
+
+    void testEquals() {
+        def bag = Money.fromMajor(10,"EUR") + Money.fromMajor(20,"USD")
+        assert bag.negate().negate() == bag
+    }
 }

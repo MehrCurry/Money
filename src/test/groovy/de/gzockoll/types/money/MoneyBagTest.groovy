@@ -53,4 +53,19 @@ class MoneyBagTest extends GroovyTestCase {
         MoneyBag result =  bag1 + bag2
         assert result.entries().values().containsAll([Money.fromMajor(10,"FRF"),Money.fromMajor(40,"USD"),Money.fromMajor(10,"EUR")])
     }
+
+    void testNegate() {
+        IMoney bag = Money.fromMajor(10,"EUR") + Money.fromMajor(20,"USD")
+        assert bag.negate().entries().values().containsAll([Money.fromMajor(-10,"EUR"),Money.fromMajor(-20,"USD")])
+    }
+    void testMinusBag() {
+        def bag = Money.fromMajor(10,"EUR") + Money.fromMajor(20,"USD")
+        MoneyBag result = Money.fromMajor(20,"EUR") - bag
+        assert result.entries().values().containsAll([Money.fromMajor(10,"EUR"), Money.fromMajor(-20,"USD")])
+    }
+    void testEmptyBag() {
+        def bag = Money.fromMajor(10,"EUR") + Money.fromMajor(20,"USD")
+        def result = bag - bag
+        assert result.entries().isEmpty()
+    }
 }

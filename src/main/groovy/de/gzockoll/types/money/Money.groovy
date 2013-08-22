@@ -83,11 +83,8 @@ class Money extends AbstractMoney {
     }
 
     def IMoney minus(IMoney other) {
-        if (other instanceof MoneyBag)
-            other.add(negate())
-        else {
-            Money.fromMajor(value-other.value,currency)
-        }
+        def temp = other.addMoney(negate())
+        temp.negate()
     }
 
     def assertSameCurrency(Money other) {

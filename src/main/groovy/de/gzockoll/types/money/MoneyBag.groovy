@@ -14,8 +14,8 @@ import groovy.transform.ToString
 class MoneyBag extends AbstractMoney {
     final Map<Currency, MoneyBag> monies = [:]
 
-    private MoneyBag(Map<Currency,Money> aMap) {
-        aMap?.each { key, value -> appendMoney(value)}
+    private MoneyBag(Collection<Money> coll) {
+        coll?.each { appendMoney(it)}
     }
 
     private static IMoney create(AbstractMoney m1, AbstractMoney m2) {
@@ -75,13 +75,11 @@ class MoneyBag extends AbstractMoney {
     }
 
     public IMoney multiply(BigDecimal factor) {
-        new MoneyBag(monies.collectEntries { key, value ->
-            [(key) : value * factor]
-        })
+        new MoneyBag(monies.values().collect { [ it * factor] })
     }
 
     public IMoney negate() {
-        monies.collect { it.negate() }
+        new MoneyBag(monies.values().collect { it.negate() })
     }
 
     private IMoney simplify() {

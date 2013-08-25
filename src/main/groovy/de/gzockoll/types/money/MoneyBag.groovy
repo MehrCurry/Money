@@ -96,7 +96,11 @@ class MoneyBag extends AbstractMoney {
         m.appendBag(this);
     }
 
-    boolean contains(Currency currency) {
+    boolean contains(Money aMoney) {
+        getByCurrency(aMoney.currency) == aMoney
+    }
+
+    boolean containsCurrency(Currency currency) {
         monies.keySet().contains(currency)
     }
 

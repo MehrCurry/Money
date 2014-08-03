@@ -24,7 +24,5 @@ dependencies {
     // compile 'com.ibm.icu:icu4j:53.1'
     compile 'joda-time:joda-time:2.+'
 
-    // We use the awesome Spock testing and specification framework
-    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
     testCompile 'junit:junit:4.+'
 }

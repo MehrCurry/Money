@@ -225,8 +225,9 @@ class Money extends AbstractMoney {
      *            Locale which is use for formatting
      * @return a string representing the amount and currency
      */
-    String getAsFormattedString(Locale loc) {
+    String getAsFormattedString(loc) {
         NumberFormat n = NumberFormat.getCurrencyInstance(loc);
+        n.setCurrency(currency)
         return n.format(value.doubleValue());
     }
 

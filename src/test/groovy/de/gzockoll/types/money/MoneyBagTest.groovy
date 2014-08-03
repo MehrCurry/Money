@@ -1,5 +1,7 @@
 package de.gzockoll.types.money
 import groovy.transform.ToString
+import org.junit.Test
+
 /**
  * Created with IntelliJ IDEA.
  * User: Guido Zockoll
@@ -8,8 +10,9 @@ import groovy.transform.ToString
  * To change this template use File | Settings | File Templates.
  */
 @ToString
-class MoneyBagTest extends GroovyTestCase {
+class MoneyBagTest {
 
+    @Test
     void testMoneyBag() {
         def usd=Money.fromMajor(10,"USD")
         def eur=Money.fromMajor(11,"EUR")
@@ -19,6 +22,7 @@ class MoneyBagTest extends GroovyTestCase {
         assert bag.getByCurrency(eur.currency) == Money.fromMajor(11,"EUR")
     }
 
+    @Test
     void testMoneyBagSameCurrency() {
         def e1=Money.fromMajor(10,"EUR")
         def e2=Money.fromMajor(11,"EUR")
@@ -27,6 +31,7 @@ class MoneyBagTest extends GroovyTestCase {
         assert m == Money.euros(21)
     }
 
+    @Test
     void testMultiply() {
         def usd=Money.fromMajor(10,"USD")
         def eur=Money.fromMajor(11,"EUR")
@@ -36,6 +41,7 @@ class MoneyBagTest extends GroovyTestCase {
         assert bag.entries().values().containsAll([Money.fromMajor(99,"EUR"),Money.fromMajor(90,"USD")])
     }
 
+    @Test
     void testRemoveUnused() {
         def result=Money.fromMajor(10,"EUR") + Money.fromMajor(10,"USD")
         result += Money.fromMajor(10,"EUR")
@@ -46,6 +52,7 @@ class MoneyBagTest extends GroovyTestCase {
         assert result == Money.fromMajor(0,"USD")
     }
 
+    @Test
     void testAddTwoBags() {
         def bag1=Money.fromMajor(10,"EUR") + Money.fromMajor(20,"USD")
         def bag2=Money.fromMajor(10,"FRF") + Money.fromMajor(20,"USD")
@@ -54,21 +61,27 @@ class MoneyBagTest extends GroovyTestCase {
         assert result.entries().values().containsAll([Money.fromMajor(10,"FRF"),Money.fromMajor(40,"USD"),Money.fromMajor(10,"EUR")])
     }
 
+    @Test
     void testNegate() {
         IMoney bag = Money.fromMajor(10,"EUR") + Money.fromMajor(20,"USD")
         assert bag.negate().entries().values().containsAll([Money.fromMajor(-10,"EUR"),Money.fromMajor(-20,"USD")])
     }
+
+    @Test
     void testMinusBag() {
         def bag = Money.fromMajor(10,"EUR") + Money.fromMajor(20,"USD")
         MoneyBag result = Money.fromMajor(20,"EUR") - bag
         assert result.entries().values().containsAll([Money.fromMajor(10,"EUR"), Money.fromMajor(-20,"USD")])
     }
+
+    @Test
     void testEmptyBag() {
         def bag = Money.fromMajor(10,"EUR") + Money.fromMajor(20,"USD")
         def result = bag - bag
         assert result.entries().isEmpty()
     }
 
+    @Test
     void testEquals() {
         def bag = Money.fromMajor(10,"EUR") + Money.fromMajor(20,"USD")
         assert bag.negate().negate() == bag

@@ -21,7 +21,7 @@ repositories {
 dependencies {
     // We use the latest groovy 2.x version for building this library
     compile 'org.codehaus.groovy:groovy:2.+'
-    compile 'com.ibm.icu:icu4j:53.1'
+    // compile 'com.ibm.icu:icu4j:53.1'
     compile 'joda-time:joda-time:2.+'
 
     // We use the awesome Spock testing and specification framework

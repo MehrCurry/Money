@@ -1,12 +1,12 @@
 package de.gzockoll.types.money
-import com.ibm.icu.text.NumberFormat
-import com.ibm.icu.util.Currency as Currency
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import org.joda.time.DateTime
 import org.joda.time.Interval
 
 import java.math.RoundingMode
+import java.text.NumberFormat
+
 /**
  * Created with IntelliJ IDEA.
  * User: Guido Zockoll
@@ -124,10 +124,12 @@ class Money extends AbstractMoney {
      * @param interval
      * @return true if currency is valid
      */
+    /* Works only with ICU4J Currency calls
     static boolean isCurrencyValid(Currency currency, Interval interval) {
         return Currency.isAvailable(currency.getCurrencyCode(), interval.getStart().toDate(), interval.getEnd()
                 .toDate())
     }
+    */
 
     BigDecimal asMinor() {
         value*getCentFactor(currency)

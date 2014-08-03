@@ -1,6 +1,5 @@
 package de.gzockoll.types.money
 
-import com.ibm.icu.util.Currency as Currency
 import groovy.transform.ToString
 
 /**

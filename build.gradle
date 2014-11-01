@@ -9,6 +9,14 @@
 
 // Apply the groovy plugin to add support for Groovy
 apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group="de.gzockoll"
+version="0.1.4-SNAPSHOT"
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -20,9 +28,9 @@ repositories {
 // In this section you declare the dependencies for your production and test code
 dependencies {
     // We use the latest groovy 2.x version for building this library
-    compile 'org.codehaus.groovy:groovy:2.+'
+    compile 'org.codehaus.groovy:groovy:2.4.0-beta-2'
     // compile 'com.ibm.icu:icu4j:53.1'
-    compile 'joda-time:joda-time:2.+'
+    compile 'joda-time:joda-time:2.4'
 
     testCompile 'junit:junit:4.+'
 }

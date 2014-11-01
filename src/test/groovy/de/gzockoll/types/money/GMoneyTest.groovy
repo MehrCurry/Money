@@ -154,4 +154,11 @@ class GMoneyTest {
         assert m.getAsFormattedString(Locale.US) == '$12.34'
         assert m.getAsFormattedString(Locale.GERMAN) == 'USD 12,34'
     }
+
+    @Test
+    void testToString() {
+        def m = Money.fromMinor(1234, Currency.getInstance(Locale.US))
+        assert m.toString(Locale.GERMAN) == 'USD 12,34'
+
+    }
 }

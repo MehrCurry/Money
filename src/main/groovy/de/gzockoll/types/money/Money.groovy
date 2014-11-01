@@ -15,7 +15,6 @@ import java.text.NumberFormat
  * To change this template use File | Settings | File Templates.
  */
 @EqualsAndHashCode
-@ToString
 class Money extends AbstractMoney {
     static EUR=Currency.getInstance("EUR")
     BigDecimal value
@@ -233,6 +232,10 @@ class Money extends AbstractMoney {
 
     static Money zero(currency) {
         Money.fromMinor(0,currency)
+    }
+
+    String toString() {
+        getAsFormattedString(Locale.default)
     }
 
 

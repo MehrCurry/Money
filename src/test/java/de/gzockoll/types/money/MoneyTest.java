@@ -52,7 +52,7 @@ public class MoneyTest {
     public void checkCurrencyWithUnusualFraction_Madagaskar() {
         Currency ariary = Currency.getInstance(new ULocale.Builder().setRegion(
                 "MG").build());
-        assertThat(ariary.getDisplayName(), is("Madagaskar-Ariary"));
+        assertThat(ariary.getDisplayName(), is("Malagasy Ariary"));
 
     }
 
@@ -65,7 +65,7 @@ public class MoneyTest {
     public void checkCurrencyWithUnusualFraction_Madagaskar_SubUnit() {
         Currency ariary = Currency.getInstance(new ULocale.Builder().setRegion(
                 "MG").build());
-        assertThat(ariary.getDisplayName(), is("Madagaskar Ariary"));
+        assertThat(ariary.getDisplayName(), is("Malagasy Ariary"));
         Money one = Money.fromMinor(5, ariary);
         assertThat(one.getAmount(), is(new BigDecimal("1")));
         assertThat(ariary.getDefaultFractionDigits(), is(0));
